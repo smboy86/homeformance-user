@@ -15,11 +15,9 @@ export default function useCachedResources() {
         // Load fonts
         await Font.loadAsync({
           ...FontAwesome.font,
-          // 'spoqaThin': require('../assets/fonts/SpoqaHanSansNeo-Thin.ttf'),
-          'spoqaLight': require('../assets/fonts/SpoqaHanSansNeo-Light.ttf'),
-          'spoqaRegular': require('../assets/fonts/SpoqaHanSansNeo-Regular.ttf'),
-          'spoqaMedium': require('../assets/fonts/SpoqaHanSansNeo-Medium.ttf'),
-          'spoqaBold': require('../assets/fonts/SpoqaHanSansNeo-Bold.ttf'),
+          YiSunShinDotumL: require('../assets/fonts/YiSunShinDotumL.otf'),
+          YiSunShinDotumM: require('../assets/fonts/YiSunShinDotumM.otf'),
+          YiSunShinDotumB: require('../assets/fonts/YiSunShinDotumB.otf'),
         });
       } catch (e) {
         // We might want to provide this error information to an error reporting service
