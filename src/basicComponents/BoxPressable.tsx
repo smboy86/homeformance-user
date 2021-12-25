@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Pressable, PressableProps, StyleSheet } from 'react-native';
+import { Pressable, PressableProps, StyleSheet, ViewStyle } from 'react-native';
 interface IProps extends PressableProps {
   onPress: () => void;
   onLongPress?: () => void;
@@ -35,7 +35,7 @@ interface IProps extends PressableProps {
   borderBottom?: boolean; //?: [number, string];
   backColor?: string;
   shadow?: boolean; // # 쉐도우 쓸땐 반드시 backgroundColor을 지정해서 같이 써야 한다.
-  style?: any;
+  style?: ViewStyle;
 }
 
 const BoxPressable: React.FunctionComponent<IProps> = ({
@@ -126,7 +126,7 @@ const styles = () =>
       alignItems: 'center',
     },
     full: {
-      width: '100%',
+      flex: 1,
     },
     wFull: {
       width: '100%',

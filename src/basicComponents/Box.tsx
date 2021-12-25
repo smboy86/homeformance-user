@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { View, ViewProps, StyleSheet } from 'react-native';
+import { View, ViewProps, StyleSheet, ViewStyle } from 'react-native';
 interface IProps extends ViewProps {
   children?: ReactNode;
   full?: boolean;
@@ -33,7 +33,7 @@ interface IProps extends ViewProps {
   borderBottom?: boolean; //?: [number, string];
   backColor?: string;
   shadow?: boolean; // # 쉐도우 쓸땐 반드시 backgroundColor을 지정해서 같이 써야 한다.
-  style?: any;
+  style?: ViewStyle;
 }
 
 const Box: React.FunctionComponent<IProps> = ({
@@ -124,7 +124,7 @@ const styles = () =>
       alignItems: 'center',
     },
     full: {
-      width: '100%',
+      flex: 1,
     },
     wFull: {
       width: '100%',

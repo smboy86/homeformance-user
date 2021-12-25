@@ -7,7 +7,6 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import styled from 'styled-components/native';
-import Colors from '../constants/Colors';
 import Layout from '../constants/Layout';
 import Box from './Box';
 
@@ -15,9 +14,6 @@ const Wrap = styled.View`
   width: 100%;
   height: 100%;
   background-color: #fff;
-
-  /* background-color: ${(props: IProps) =>
-    props.backWhite ? '#fff' : Colors.default.backgroundTintColor}; */
 `;
 
 const ContentsWrap = styled.View`

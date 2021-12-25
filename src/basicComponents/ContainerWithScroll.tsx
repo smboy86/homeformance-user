@@ -36,7 +36,7 @@ interface IProps extends ViewProps {
 }
 
 const ContainerWithScroll: React.FunctionComponent<IProps> = (
-  props: IProps,
+  props: IProps
 ) => {
   return (
     <Wrap style={{ ...props.style }}>

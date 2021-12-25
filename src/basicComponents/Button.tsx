@@ -27,7 +27,7 @@ function Button(props: PropsType) {
   const { label, fill, onPress } = props;
   return (
     <BtnBox {...props} onPress={onPress}>
-      <Text medium size={14} color={fill ? '#fff' : Colors.default.fontBlack}>
+      <Text medium size={16} color={fill ? '#fff' : Colors.fontBlack}>
         {label}
       </Text>
     </BtnBox>

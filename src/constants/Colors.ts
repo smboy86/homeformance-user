@@ -1,6 +1,10 @@
 export default {
-  backgroundTintColor: '#FACE56',
+  borderGray: '#E6E6EA',
+  fontGray: '#BABABA',
   fontBlack: '#181818',
+  imgGray: '#e4e4e9',
+  ///
+  backgroundTintColor: '#FACE56',
   commonGrey: '#787878',
   brownStart: '#bca490',
   brownEnd: '#937665',

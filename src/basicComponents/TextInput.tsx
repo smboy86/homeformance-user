@@ -3,7 +3,7 @@ import { TextInput, TextInputProps } from 'react-native';
 
 interface IProps extends TextInputProps {
   // onPress(): void; // ? or 조건을 같이 쓸 수가 없네??
-  value: string | undefined;
+  value?: string | undefined;
   setValue: Function;
   placeholder: string;
   center?: boolean;
@@ -19,7 +19,7 @@ export default function (props: IProps) {
       {...props}
       ref={inputRef}
       value={value}
-      onChangeText={text => setValue(text)}
+      onChangeText={(text) => setValue(text)}
       placeholder={placeholder}
       textAlignVertical={center ? 'center' : undefined}
       autoCapitalize={'none'} // 첫글자 대문자 x
