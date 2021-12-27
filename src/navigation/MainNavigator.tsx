@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import { BottomStackParamList, MainStackParamList } from './types';
 import {
+  DetailItemScreen,
   DetailVideoScreen,
   HomeScreen,
   ItemScreen,
@@ -112,6 +113,7 @@ export const MainNavigator = () => (
         ),
       })}>
       <Stack.Screen name='DetailVideo' component={DetailVideoScreen} />
+      <Stack.Screen name='DetailItem' component={DetailItemScreen} />
     </Stack.Group>
     {/* 2-3) yes header + transparent */}
     {/* <Stack.Group
