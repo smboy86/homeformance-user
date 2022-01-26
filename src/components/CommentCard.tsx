@@ -14,12 +14,15 @@ export default function () {
       />
       <Box full ml={12}>
         <Text
+          size={15}
           style={{
             marginBottom: 4,
           }}>
           홈퍼먼스 유저1
         </Text>
-        <Text size={16}>저렴하게 잘 봐서 만족스러워요 </Text>
+        <Text light size={15}>
+          저렴하게 잘 봐서 만족스러워요{' '}
+        </Text>
       </Box>
     </Box>
   );

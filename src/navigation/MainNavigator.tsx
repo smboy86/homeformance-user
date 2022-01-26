@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import { BottomStackParamList, MainStackParamList } from './types';
@@ -24,22 +24,23 @@ const BottomNavigator = () => (
   <BottomTab.Navigator
     barStyle={{
       height: Platform.select({
-        ios: 70,
+        ios: 80,
         android: 60,
       }),
       backgroundColor: '#fff',
     }}
-    activeColor='#7FC4FD'
+    activeColor='#FD0505'
     inactiveColor='#e6e6e6'
     screenOptions={{}}
     shifting={false}
-    labeled={false}>
+    labeled={true}>
     <BottomTab.Screen
       name='Home'
       component={HomeScreen}
       options={{
+        tabBarLabel: '영상',
         tabBarIcon: ({ color }) => (
-          <Ionicons name='home-sharp' size={24} color={color} />
+          <AntDesign name='play' size={24} color={color} />
         ),
       }}
     />
@@ -47,8 +48,9 @@ const BottomNavigator = () => (
       name='Item'
       component={ItemScreen}
       options={{
+        tabBarLabel: '상품',
         tabBarIcon: ({ color }) => (
-          <Ionicons name='cart-outline' size={26} color={color} />
+          <MaterialIcons name='shopping-basket' size={24} color={color} />
         ),
       }}
     />
@@ -56,6 +58,7 @@ const BottomNavigator = () => (
       name='Like'
       component={LikeScreen}
       options={{
+        tabBarLabel: '찜목록',
         tabBarIcon: ({ color }) => (
           <Ionicons name='heart' size={26} color={color} />
         ),
@@ -65,6 +68,7 @@ const BottomNavigator = () => (
       name='MyPage'
       component={SettingsScreen}
       options={{
+        tabBarLabel: '내정보',
         tabBarIcon: ({ color }) => (
           <Ionicons name='ios-person' size={24} color={color} />
         ),

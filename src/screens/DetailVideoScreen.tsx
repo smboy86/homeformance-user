@@ -17,7 +17,7 @@ import {
 import ActionButton from 'react-native-action-button';
 
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
-import { Box, Text, TextInput } from '../basicComponents';
+import { Box, Button, Text, TextInput } from '../basicComponents';
 import Layout, { pxToDp } from '../constants/Layout';
 import BoxPressable from '../basicComponents/BoxPressable';
 import Colors from '../constants/Colors';
@@ -63,26 +63,7 @@ export default function () {
           <Box
             wFull
             height={(Layout.window.width * 9) / 16}
-            backColor='#00000060'>
-            <BoxPressable
-              height={46}
-              center
-              onPress={() => Alert.alert('찜하기')}
-              style={{
-                position: 'absolute',
-                bottom: -46,
-                right: 8,
-                zIndex: 1000,
-              }}>
-              <Ionicons name='heart' size={20} color={'red'} />
-              <Text
-                style={{
-                  marginTop: 4,
-                }}>
-                찜하기
-              </Text>
-            </BoxPressable>
-          </Box>
+            backColor='#00000060'></Box>
           <Box pv={22} ph={16}>
             <Box row aCenter>
               <Box
@@ -93,29 +74,52 @@ export default function () {
                 backColor='#00000060'>
                 <Text>img</Text>
               </Box>
-              <Box full pl={12}>
-                <Text
-                  size={14}
+              <Box
+                row
+                aCenter
+                style={{
+                  flex: 1,
+                }}>
+                <Box
+                  pl={12}
+                  pr={0}
                   style={{
-                    marginBottom: 8,
+                    flex: 1,
                   }}>
-                  공연팀 명
-                </Text>
-                <Text size={16} numberOfLines={2}>
-                  공연 팀 소개는 두 줄 까지공연 팀 소개는 두 줄 까지공연 팀
-                  소개는 두 줄 까지공연 팀 소개는 두 줄 까지
-                </Text>
+                  <Text
+                    size={16}
+                    style={{
+                      marginBottom: 8,
+                    }}>
+                    공연팀 명
+                  </Text>
+                  <Text light size={16} numberOfLines={2}>
+                    공연 팀 소개는 두 줄 까지공연 팀 소개는 두 줄 까지공연 팀
+                    소개는 두 줄 까지공연 팀 소개는 두 줄 까지
+                  </Text>
+                </Box>
+                <BoxPressable
+                  ph={10}
+                  height={46}
+                  center
+                  onPress={() => Alert.alert('찜하기')}>
+                  <Ionicons
+                    name='heart'
+                    size={20}
+                    color={false ? '#4231CA' : '#DBDBDB'}
+                  />
+                </BoxPressable>
               </Box>
             </Box>
             <Box pt={pxToDp(32)}>
               <Text
-                size={26}
+                size={20}
                 style={{
                   marginBottom: 12,
                 }}>
                 공연 소개
               </Text>
-              <Text>
+              <Text light size={16}>
                 10년 연속 연극 예매율 1위{'\n'}
                 {'\n'}
                 #1 감성 200% 충전{'\n'}
@@ -129,7 +133,7 @@ export default function () {
             </Box>
             <Box mt={16}>
               <Text
-                size={26}
+                size={20}
                 style={{
                   marginBottom: 12,
                 }}>
@@ -200,7 +204,6 @@ export default function () {
             <CommentCard />
             <CommentCard />
             <CommentCard />
-
             {/*  // warp */}
           </Box>
         </Box>

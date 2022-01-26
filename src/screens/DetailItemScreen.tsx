@@ -17,6 +17,14 @@ export default function () {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: '상품 상세 페이지',
+      headerRight: () => (
+        <BoxPressable
+          height={46}
+          center
+          onPress={() => Alert.alert('상품 찜하기')}>
+          <Ionicons name='heart' size={24} color={'#4231CA'} />
+        </BoxPressable>
+      ),
     });
   }, []);
 
@@ -48,9 +56,12 @@ export default function () {
         </ScrollView>
         <Box ph={16}>
           <Box pv={24}>
-            <Text size={28}>[맞춤] 칼주름 형상기억 린넨직조 히든 암막커튼</Text>
+            <Text bold size={32}>
+              [맞춤] 칼주름 형상기억 린넨직조 히든 암막커튼
+            </Text>
           </Box>
           <Box>
+            <Text size={20}>상품 상세 내용</Text>
             <AutoHeightImage
               source={{
                 uri: 'https://image.musinsa.com/images/prd_img/2021042008505200000031446.jpg',
@@ -90,7 +101,12 @@ export default function () {
             resizeMode='cover'
           />
         </BoxPressable>
-        <Button fill label='구매하기' onPress={() => Alert.alert('구매하기')} />
+        <Button
+          fill
+          label='구매하기'
+          onPress={() => Alert.alert('구매하기')}
+          background={'#000'}
+        />
       </Box>
     </Container>
   );

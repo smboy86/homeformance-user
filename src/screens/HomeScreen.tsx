@@ -8,7 +8,7 @@ import VideoCardHome from '../components/VideoCardHome';
 export default function () {
   return (
     <ContainerWithScroll safe>
-      <Box pl={16} pv={22}>
+      <Box pl={16} pv={22} center>
         <Text size={28}>홈퍼먼스</Text>
       </Box>
       <VideoCardHome />

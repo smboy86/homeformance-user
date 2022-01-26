@@ -11,9 +11,8 @@ const BtnBox = styled(Pressable)`
   width: 100%;
   align-items: center;
   padding: 14px 0;
-  background: ${(props: PropsType) => (props.fill ? '#bca490' : '#fff')};
+  background: ${(props: PropsType) => (props.fill ? '#4231CA' : '#fff')};
   border: ${(props: PropsType) => (props.fill ? '0px' : '1px solid #dddddf')};
-  border-radius: 8px;
 `;
 
 type PropsType = PressableProps & {
@@ -27,7 +26,7 @@ function Button(props: PropsType) {
   const { label, fill, onPress } = props;
   return (
     <BtnBox {...props} onPress={onPress}>
-      <Text medium size={16} color={fill ? '#fff' : Colors.fontBlack}>
+      <Text bold size={18} color={fill ? '#fff' : Colors.fontBlack}>
         {label}
       </Text>
     </BtnBox>
