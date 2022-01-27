@@ -163,9 +163,9 @@ export default function () {
                 />
               </ScrollView>
             </Box>
-            <Box mt={16}>
+            <Box mt={24}>
               <Text
-                size={26}
+                size={20}
                 style={{
                   marginBottom: 12,
                 }}>

@@ -7,3 +7,4 @@ export { default as LikeScreen } from './LikeScreen';
 export { default as SettingsScreen } from './SettingsScreen';
 export { default as DetailVideoScreen } from './DetailVideoScreen';
 export { default as DetailItemScreen } from './DetailItemScreen';
+export { default as DetailMyProfileScreen } from './DetailMyProfileScreen';

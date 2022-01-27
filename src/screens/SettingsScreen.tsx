@@ -5,6 +5,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
 
 import Box from '../basicComponents/Box';
 import BoxPressable from '../basicComponents/BoxPressable';
@@ -16,6 +17,8 @@ import GreyBox from '../components/GreyBox';
 import Colors from '../constants/Colors';
 
 export default function () {
+  const navigation = useNavigation();
+
   return (
     <ContainerWithScroll safe>
       <Box
@@ -27,7 +30,7 @@ export default function () {
         <BoxPressable
           row
           aCenter
-          onPress={() => Alert.alert('', '프로필')}
+          onPress={() => navigation.navigate('DetailMyProfile')}
           mt={50}>
           <Image
             source={Images.logoNew}
