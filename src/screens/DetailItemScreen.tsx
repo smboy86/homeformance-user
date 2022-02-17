@@ -12,11 +12,11 @@ import Container from '../basicComponents/Container';
 import AutoHeightImage from 'react-native-auto-height-image';
 
 export default function (props: { id: string }) {
-  console.log('123123  :: ', props.id);
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      title: '상품 상세 페이지',
       headerTitle: '상품 상세 페이지',
       headerRight: () => (
         <BoxPressable

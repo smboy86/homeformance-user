@@ -4,29 +4,41 @@ import { useNavigation } from '@react-navigation/core';
 import { FontAwesome } from '@expo/vector-icons';
 
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
-import { Box, TextInput } from '../basicComponents';
+import { Box, Text, TextInput } from '../basicComponents';
 import Layout, { pxToDp } from '../constants/Layout';
 import BoxPressable from '../basicComponents/BoxPressable';
 import Colors from '../constants/Colors';
 import Images from '../constants/Images';
+import { useReduxDispatch } from '../store';
+import { appActions } from '../store/slices/AppSlice';
+import { useSelector } from 'react-redux';
 
 export default function () {
-  const [name, setName] = React.useState('유저1');
+  const [name, setName] = React.useState('');
   const navigation = useNavigation();
+  const dispatch = useReduxDispatch();
+  const appStore = useSelector((state) => state.app);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      title: '나의 정보',
       headerTitle: '나의 정보',
-      headerRight: () => (
-        <BoxPressable
-          height={46}
-          center
-          onPress={() => Alert.alert('저장 되었습니다')}>
-          <FontAwesome name='save' size={24} color='#4231CA' />
-        </BoxPressable>
-      ),
+      // headerRight: () => (
+      //   <BoxPressable
+      //     height={46}
+      //     center
+      //     onPress={() => Alert.alert('저장 되었습니다')}>
+      //     <FontAwesome name='save' size={24} color='#4231CA' />
+      //   </BoxPressable>
+      // ),
     });
+
+    setName(appStore.user.name);
   }, []);
+
+  const onLogout = () => {
+    dispatch(appActions.logout());
+  };
 
   return (
     <ContainerWithScroll>
@@ -55,6 +67,9 @@ export default function () {
           }}>
           <TextInput placeholder='' setValue={setName} value={name} />
         </Box>
+        <BoxPressable onPress={onLogout} mt={30}>
+          <Text>로그아웃</Text>
+        </BoxPressable>
       </Box>
     </ContainerWithScroll>
   );

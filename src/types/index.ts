@@ -11,3 +11,9 @@ export type VideoType = {
   introVideo?: string;
   videoUrl?: string;
 };
+
+export type user = {
+  uid: string;
+  name: string;
+  email: string;
+};

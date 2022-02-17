@@ -10,6 +10,10 @@ import Text from '../basicComponents/Text';
 import TextInput from '../basicComponents/TextInput';
 import Colors from '../constants/Colors';
 import Layout, { pxToDp } from '../constants/Layout';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { authService } from '../../fireabse';
+import { useReduxDispatch } from '../store';
+import { appActions } from '../store/slices/AppSlice';
 
 export default function () {
   const [inputs, setInputs] = React.useState({
@@ -18,6 +22,7 @@ export default function () {
   });
 
   const navigation = useNavigation();
+  const dispatch = useReduxDispatch();
 
   const onChangeTextA = (text: string) => {
     setInputs((prev) => ({
@@ -31,6 +36,28 @@ export default function () {
       ...prev,
       textB: text,
     }));
+  };
+
+  const login = () => {
+    signInWithEmailAndPassword(authService, inputs.textA, inputs.textB)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log('로그인 성공 :: ', user);
+        dispatch(appActions.login());
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        if (errorCode === 'auth/user-not-found') {
+          Alert.alert('', '계정이 존재하지 않습니다.');
+          return;
+        } else {
+          console.log('zzz  ', error);
+          Alert.alert('', '이메일, 패스워드를 확인해주세요.');
+        }
+      });
   };
 
   return (
@@ -68,12 +95,13 @@ export default function () {
             borderRadius: 4,
           }}>
           <TextInput
+            secureTextEntry
             setValue={onChangeTextB}
             placeholder='비밀번호를 입력하세요'
           />
         </Box>
         <Box wFull pt={20}>
-          <Button fill label='로그인' onPress={() => null} />
+          <Button fill label='로그인' onPress={login} />
         </Box>
         <Box row aCenter mt={pxToDp(40)}>
           <BoxPressable onPress={() => navigation.navigate('SearchPassword')}>

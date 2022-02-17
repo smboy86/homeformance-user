@@ -14,7 +14,6 @@ const cafeSlice = createSlice({
   initialState,
   reducers: {
     // setCafeInfo(state, action: PayloadAction<CafeInfo>) {
-    //   console.log('2222 :: ', action);
     //   state.cafeInfo = action.payload;
     // },
     // setSignatureMenuList(state, action: PayloadAction<SignatureMenu[]>) {

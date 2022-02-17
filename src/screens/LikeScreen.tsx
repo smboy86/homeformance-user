@@ -4,44 +4,31 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Box from '../basicComponents/Box';
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
 import Text from '../basicComponents/Text';
-import { pxToDp } from '../constants/Layout';
-import VideoCardHome from '../components/VideoCardHome';
-import ItemList from '../components/ItemList';
+import { useSelector } from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
 
 function VideoTab() {
   return (
     <ContainerWithScroll>
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
-      <VideoCardHome />
+      <Text> </Text>
     </ContainerWithScroll>
   );
 }
+
 function LikeTab() {
   return (
     <ContainerWithScroll>
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
-      <ItemList />
+      <Text> </Text>
     </ContainerWithScroll>
   );
 }
 
 export default function () {
+  const appStore = useSelector((state) => state.app);
+
+  React.useEffect(() => {}, []);
+
   return (
     <ContainerWithScroll safe>
       <Box pl={16} pv={22} center>

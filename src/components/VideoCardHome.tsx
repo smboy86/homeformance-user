@@ -44,7 +44,6 @@ export default function (props: props) {
             style={{
               minWidth: 40,
             }}>
-            {console.log('222 :: ', props.itemThumb)}
             <Image
               source={{ uri: props.itemThumb }}
               style={{

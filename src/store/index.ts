@@ -7,11 +7,6 @@ import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // root reducer
 import RootReducer, { RootState } from './RootReducer';
-// import { authApi } from '../api/auth';
-// import { commonApi } from '../api/common';
-// import { cafeApi } from '../api/cafe';
-// import { commonAuthApi } from '../api/commonAuth';
-// import { customersApi } from '../api/customers';
 
 const persistConfig = {
   key: 'root',
@@ -25,8 +20,6 @@ const persistedReducer = persistReducer(persistConfig, RootReducer);
 const arrMiddlewares = [
   thunk,
   // authApi.middleware,
-  // commonApi.middleware,
-  // commonAuthApi.middleware,
   // cafeApi.middleware,
   // customersApi.middleware,
 ];

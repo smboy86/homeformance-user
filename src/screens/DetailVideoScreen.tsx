@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Alert,
-  Image,
-  Linking,
-  ScrollView,
-  Share,
-  useWindowDimensions,
-} from 'react-native';
+import { Alert, Image, Linking, ScrollView, Share } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import {
   Ionicons,
@@ -30,12 +23,12 @@ export default function () {
   const [text, setText] = React.useState();
 
   const { params } = useRoute<{ params: VideoType }>();
-  console.log('123123  :: ', params);
 
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
+      title: params.videoTitle,
       headerTitle: params.videoTitle,
     });
   }, []);
@@ -66,6 +59,11 @@ export default function () {
       <ContainerWithScroll>
         <Box>
           <Video
+            usePoster
+            posterSource={{
+              uri: params.videoThumb,
+            }}
+            shouldPlay
             style={{
               width: Layout.window.width,
               height: (Layout.window.width * 9) / 16,

@@ -15,9 +15,11 @@ import Images from '../constants/Images';
 import { pxToDp } from '../constants/Layout';
 import GreyBox from '../components/GreyBox';
 import Colors from '../constants/Colors';
+import { useSelector } from 'react-redux';
 
 export default function () {
   const navigation = useNavigation();
+  const appStore = useSelector((state) => state.app);
 
   return (
     <ContainerWithScroll safe>
@@ -46,7 +48,7 @@ export default function () {
             style={{
               marginLeft: 10,
             }}>
-            유저1
+            {appStore.user.name}
           </Text>
           <Box
             aEnd
@@ -93,7 +95,7 @@ export default function () {
         <BoxPressable
           row
           aCenter
-          onPress={() => Alert.alert('', '공지사항')}
+          onPress={() => Alert.alert('', '준비중입니다.')}
           pv={18}
           style={{
             borderBottomWidth: 1,
@@ -122,7 +124,7 @@ export default function () {
         <BoxPressable
           row
           aCenter
-          onPress={() => Alert.alert('', '문의사항')}
+          onPress={() => Alert.alert('', '준비중입니다.')}
           pv={18}
           style={{
             borderBottomWidth: 1,

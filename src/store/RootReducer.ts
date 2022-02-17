@@ -1,22 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-// import { authApi } from '../api/auth';
-// import { cafeApi } from '../api/cafe';
-// import { commonApi } from '../api/common';
-// import { commonAuthApi } from '../api/commonAuth';
-// import { customersApi } from '../api/customers';
 import appSlice from './slices/AppSlice';
-import CommonSlice from './slices/CommonSlice';
 
 const RootReducer = combineReducers({
   app: appSlice,
-  common: CommonSlice,
-  // user: userReducer,
-  // cafe: CafeSlice,
-  // [authApi.reducerPath]: authApi.reducer,
-  // [commonApi.reducerPath]: commonApi.reducer,
-  // [commonAuthApi.reducerPath]: commonAuthApi.reducer,
-  // [cafeApi.reducerPath]: cafeApi.reducer,
-  // [customersApi.reducerPath]: customersApi.reducer,
 });
 
 // export root reducer's state type

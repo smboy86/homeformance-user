@@ -12,6 +12,9 @@ import TextInputWithBorder from '../basicComponents/TextInputWithBorder';
 import Colors from '../constants/Colors';
 import Images from '../constants/Images';
 import { pxToDp } from '../constants/Layout';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { authService, firestoreService } from '../../fireabse';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function () {
   const [inputs, setInputs] = React.useState({
@@ -64,8 +67,47 @@ export default function () {
   };
 
   const onJoin = () => {
-    Alert.alert('회원가입 완료');
-    navigation.goBack();
+    createUserWithEmailAndPassword(authService, inputs.textB, inputs.textC)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        //1) 회원 정보 등록
+        try {
+          await setDoc(
+            doc(firestoreService, 'users', user.uid),
+            {
+              uid: user.uid,
+              name: inputs.textA,
+              email: inputs.textB,
+              createDate: new Date(),
+            },
+            { merge: true }
+          );
+          // 2) 가입완료 후 이동
+          Alert.alert('', '회원가입이 완료되었습니다.');
+          navigation.goBack();
+        } catch (error) {
+          console.log('eeee:: ', error);
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        if (errorCode === 'auth/email-already-in-use') {
+          alert('이미 사용중인 이메일입니다');
+          return;
+        } else if (errorCode === 'auth/invalid-email') {
+          alert('이메일을 확인해 주십시요');
+          return;
+        } else if (errorCode === 'auth/weak-password') {
+          alert('패스워드는 6자 이상 입력해야 합니다.');
+          return;
+        } else {
+          console.log('zzz : :', error);
+          alert('회원가입 실패');
+          return;
+        }
+      });
   };
 
   return (

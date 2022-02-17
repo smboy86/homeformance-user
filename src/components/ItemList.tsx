@@ -10,7 +10,13 @@ import Images from '../constants/Images';
 import Layout, { pxToDp } from '../constants/Layout';
 import GreyBox from './GreyBox';
 
-export default function () {
+type Props = {
+  itemImageUrl: string;
+  itemName: string;
+  itemPrice: string;
+};
+
+export default function (props: Props) {
   const navigation = useNavigation();
   return (
     <>
@@ -18,21 +24,22 @@ export default function () {
         onPress={() => navigation.navigate('DetailItem')}
         ph={pxToDp(16)}>
         <Box row aCenter>
-          <Image
-            source={Images.logoNew}
-            style={{
-              width: pxToDp(120),
-              height: pxToDp(120),
-            }}
-          />
+          <Box pd={10}>
+            <Image
+              source={{ uri: props.itemImageUrl }}
+              style={{
+                width: pxToDp(100),
+                height: pxToDp(100),
+              }}
+            />
+          </Box>
           <Box
             pl={6}
             style={{
               flex: 1,
             }}>
             <Text size={18} numberOfLines={3}>
-              홈플래닛 초음파 가습기 4L, HL1-1001D1 (반투명 물탱크/타이머&무드등
-              설정기능)
+              {props.itemName}
             </Text>
             <Text
               bold
@@ -41,7 +48,7 @@ export default function () {
               style={{
                 paddingTop: 8,
               }}>
-              12,240원
+              {props.itemPrice}원
             </Text>
           </Box>
         </Box>

@@ -8,13 +8,14 @@ import LoginNavigator from './LoginNavigator';
 import MainNavigator from './MainNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { authService, firestoreService } from '../../fireabse';
-import { commonActions } from '../store/slices/CommonSlice';
+import { appActions } from '../store/slices/AppSlice';
+import { doc, getDoc } from 'firebase/firestore';
 // import useLocation from '../hooks/useLocation';
 
 export default function RootNavigator() {
   const [isAppLoading, setIsAppLoading] = React.useState(true); // default 작업 없음
 
-  const commonStore = useSelector((state) => state.common);
+  const appStore = useSelector((state) => state.app);
   const dispatch = useDispatch();
   // const [isCompleteLocation] = useLocation();
 
@@ -27,20 +28,18 @@ export default function RootNavigator() {
   React.useEffect(() => {
     authService.onAuthStateChanged(async (user) => {
       if (user) {
-        dispatch(commonActions.login({}));
-        // const docRef = doc(firestoreService, 'users', user.uid);
-        // const docSnap = await getDoc(docRef);
-        // if (docSnap.exists) {
-        //   dispatch(
-        //     setUserInfo({
-        //       uid: user.uid,
-        //       isLogin: true,
-        //       userInfo: {
-        //         ...docSnap.data(),
-        //       },
-        //     })
-        //   );
-        // }
+        const docRef = doc(firestoreService, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          console.log('11111111    ', { ...docSnap.data() });
+          dispatch(
+            appActions.setUser({
+              ...docSnap.data(),
+              uid: docSnap.id,
+            })
+          );
+        }
       } else {
         // dispatch(
         //   setUserInfo({
@@ -57,7 +56,7 @@ export default function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {commonStore.isLogin ? <LoginNavigator /> : <MainNavigator />}
+      {!appStore.isLogin ? <LoginNavigator /> : <MainNavigator />}
       {/* {true ? <LoginNavigator /> : <MainNavigator />} */}
     </NavigationContainer>
   );
