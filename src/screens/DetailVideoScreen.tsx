@@ -7,7 +7,7 @@ import {
   Share,
   useWindowDimensions,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, useRoute } from '@react-navigation/core';
 import {
   Ionicons,
   AntDesign,
@@ -15,6 +15,7 @@ import {
   MaterialIcons,
 } from '@expo/vector-icons';
 import ActionButton from 'react-native-action-button';
+import { Video } from 'expo-av';
 
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
 import { Box, Button, Text, TextInput } from '../basicComponents';
@@ -23,15 +24,19 @@ import BoxPressable from '../basicComponents/BoxPressable';
 import Colors from '../constants/Colors';
 import CommentCard from '../components/CommentCard';
 import Container from '../basicComponents/Container';
+import { VideoType } from '../types';
 
 export default function () {
   const [text, setText] = React.useState();
+
+  const { params } = useRoute<{ params: VideoType }>();
+  console.log('123123  :: ', params);
 
   const navigation = useNavigation();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: '옥탑방 고양이',
+      headerTitle: params.videoTitle,
     });
   }, []);
 
@@ -42,7 +47,7 @@ export default function () {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: '홈퍼먼스: 옥탑방 고양이',
+        message: params.videoTitle,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -60,19 +65,26 @@ export default function () {
     <Container>
       <ContainerWithScroll>
         <Box>
-          <Box
-            wFull
-            height={(Layout.window.width * 9) / 16}
-            backColor='#00000060'></Box>
+          <Video
+            style={{
+              width: Layout.window.width,
+              height: (Layout.window.width * 9) / 16,
+              backgroundColor: 'black',
+            }}
+            source={{
+              uri: params.videoUrl,
+            }}
+            useNativeControls
+            resizeMode='contain'
+          />
           <Box pv={22} ph={16}>
             <Box row aCenter>
               <Box
                 center
                 width={pxToDp(80)}
                 height={pxToDp(80)}
-                borderRadius={pxToDp(40)}
-                backColor='#00000060'>
-                <Text>img</Text>
+                borderRadius={pxToDp(40)}>
+                <Image source={{ uri: params.creatorThumb }} />
               </Box>
               <Box
                 row
@@ -91,11 +103,10 @@ export default function () {
                     style={{
                       marginBottom: 8,
                     }}>
-                    공연팀 명
+                    {params.creator}
                   </Text>
                   <Text light size={16} numberOfLines={2}>
-                    공연 팀 소개는 두 줄 까지공연 팀 소개는 두 줄 까지공연 팀
-                    소개는 두 줄 까지공연 팀 소개는 두 줄 까지
+                    {params.introVideo}
                   </Text>
                 </Box>
                 <BoxPressable
@@ -120,15 +131,7 @@ export default function () {
                 공연 소개
               </Text>
               <Text light size={16}>
-                10년 연속 연극 예매율 1위{'\n'}
-                {'\n'}
-                #1 감성 200% 충전{'\n'}
-                "어? 너, 예쁜냄새 난다."{'\n'}
-                마음을 간질간질 설레이게 할 취향저격 로맨스{'\n'}
-                {'\n'}
-                #2 우리들만의 파.라.다.이.스{'\n'}
-                지긋지긋한 일상 멈춰!{'\n'}
-                완벽한 하루를 위한 활력충전{'\n'}
+                {params.introVideo}
               </Text>
             </Box>
             <Box mt={16}>
@@ -145,22 +148,52 @@ export default function () {
                   width={pxToDp(160)}
                   height={pxToDp((160 * 9) / 16)}
                   borderRadius={8}
-                  mr={12}
-                />
+                  mr={12}>
+                  <Image
+                    source={{
+                      uri: 'https://kr.object.ncloudstorage.com/homeformance/video-2-videoThumb.png',
+                    }}
+                    style={{
+                      width: pxToDp(160),
+                      height: pxToDp((160 * 9) / 16),
+                      borderRadius: 8,
+                    }}
+                  />
+                </Box>
                 <Box
                   backColor={Colors.borderGray}
                   width={pxToDp(160)}
                   height={pxToDp((160 * 9) / 16)}
                   borderRadius={8}
-                  mr={12}
-                />
+                  mr={12}>
+                  <Image
+                    source={{
+                      uri: 'https://kr.object.ncloudstorage.com/homeformance/video-1-videoThumb.png',
+                    }}
+                    style={{
+                      width: pxToDp(160),
+                      height: pxToDp((160 * 9) / 16),
+                      borderRadius: 8,
+                    }}
+                  />
+                </Box>
                 <Box
                   backColor={Colors.borderGray}
                   width={pxToDp(160)}
                   height={pxToDp((160 * 9) / 16)}
                   borderRadius={8}
-                  mr={12}
-                />
+                  mr={12}>
+                  <Image
+                    source={{
+                      uri: 'https://kr.object.ncloudstorage.com/homeformance/video-3-thumb.png',
+                    }}
+                    style={{
+                      width: pxToDp(160),
+                      height: pxToDp((160 * 9) / 16),
+                      borderRadius: 8,
+                    }}
+                  />
+                </Box>
               </ScrollView>
             </Box>
             <Box mt={24}>

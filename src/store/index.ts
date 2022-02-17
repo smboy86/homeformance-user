@@ -7,28 +7,28 @@ import thunk from 'redux-thunk';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // root reducer
 import RootReducer, { RootState } from './RootReducer';
-import { authApi } from '../api/auth';
-import { commonApi } from '../api/common';
-import { cafeApi } from '../api/cafe';
-import { commonAuthApi } from '../api/commonAuth';
-import { customersApi } from '../api/customers';
+// import { authApi } from '../api/auth';
+// import { commonApi } from '../api/common';
+// import { cafeApi } from '../api/cafe';
+// import { commonAuthApi } from '../api/commonAuth';
+// import { customersApi } from '../api/customers';
 
 const persistConfig = {
   key: 'root',
-  version: 1,
+  version: 2,
   storage: AsyncStorage,
-  whitelist: ['app'], // save only app reducer
+  // whitelist: ['app'], // save only app reducer
 };
 
 const persistedReducer = persistReducer(persistConfig, RootReducer);
 
 const arrMiddlewares = [
   thunk,
-  authApi.middleware,
-  commonApi.middleware,
-  commonAuthApi.middleware,
-  cafeApi.middleware,
-  customersApi.middleware,
+  // authApi.middleware,
+  // commonApi.middleware,
+  // commonAuthApi.middleware,
+  // cafeApi.middleware,
+  // customersApi.middleware,
 ];
 
 if (__DEV__) {

@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './src/hooks/useCachedResources';
 import RootNavigator from './src/navigation/RootNavigator';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
 Sentry.init({
   dsn: 'https://d39ca52458374366a903cf75fea68a98@o1092928.ingest.sentry.io/6111892',
@@ -20,7 +21,9 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <RootNavigator />
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
     </SafeAreaProvider>
   );
 }
