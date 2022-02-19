@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "홈퍼먼스",
+    "name": "홈포먼스",
     "slug": "homeformance-user",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "orientation": "portrait",
     "icon": "./src/assets/icon_new.png",
     "splash": {
@@ -21,7 +21,7 @@
     },
     "android": {
       "package": "com.homeformance.user",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
