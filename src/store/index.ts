@@ -4,18 +4,18 @@ import { useDispatch } from 'react-redux';
 // middleware
 import thunk from 'redux-thunk';
 // storage
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 // root reducer
 import RootReducer, { RootState } from './RootReducer';
 
-const persistConfig = {
-  key: 'root',
-  version: 2,
-  storage: AsyncStorage,
-  // whitelist: ['app'], // save only app reducer
-};
+// const persistConfig = {
+//   key: 'root',
+//   version: 2,
+//   storage: AsyncStorage,
+//   // whitelist: ['app'], // save only app reducer
+// };
 
-const persistedReducer = persistReducer(persistConfig, RootReducer);
+// const persistedReducer = persistReducer(persistConfig, RootReducer);
 
 const arrMiddlewares = [
   thunk,
@@ -31,7 +31,8 @@ if (__DEV__) {
 }
 
 const store = configureStore({
-  reducer: persistedReducer,
+  // reducer: persistedReducer,
+  reducer: RootReducer,
   middleware: arrMiddlewares,
   devTools: process.env.NODE_ENV !== 'production',
 });

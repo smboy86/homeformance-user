@@ -1,20 +1,26 @@
 import React from 'react';
 import { Alert, Image, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/core';
+import { Ionicons } from '@expo/vector-icons';
+import * as WebBrowser from 'expo-web-browser';
 
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
 import { Box, Button, Text } from '../basicComponents';
-import Layout, { pxToDp } from '../constants/Layout';
+import Layout from '../constants/Layout';
 import BoxPressable from '../basicComponents/BoxPressable';
-import Colors from '../constants/Colors';
 import Container from '../basicComponents/Container';
 import AutoHeightImage from 'react-native-auto-height-image';
+import { useSelector } from 'react-redux';
+import WebView from 'react-native-webview';
 
-export default function (props: { id: string }) {
+export default function () {
+  const [data, setData] = React.useState();
+  const appStore = useSelector((state) => state.app);
   const navigation = useNavigation();
+  const route = useRoute();
 
   React.useLayoutEffect(() => {
+    console.log('12321  :: ', appStore.items);
     navigation.setOptions({
       title: '상품 상세 페이지',
       headerTitle: '상품 상세 페이지',
@@ -29,6 +35,17 @@ export default function (props: { id: string }) {
     });
   }, []);
 
+  React.useEffect(() => {
+    const filteredData = appStore.items.filter((item) => {
+      return item.id === route.params.id;
+    });
+
+    console.log('filteredData :: ', filteredData[0]);
+    setData(filteredData[0]);
+  }, []);
+
+  if (data === undefined || data === null) return null;
+
   return (
     <Container>
       <ContainerWithScroll>
@@ -38,42 +55,37 @@ export default function (props: { id: string }) {
           style={{
             height: Layout.window.width - 80,
           }}>
-          <Box mr={24}>
-            <Box
-              backColor={Colors.imgGray}
-              style={{
-                width: Layout.window.width - 80,
-                height: Layout.window.width - 80,
-              }}></Box>
-          </Box>
-          <Box mr={24}>
-            <Box
-              backColor={Colors.imgGray}
-              style={{
-                width: Layout.window.width - 80,
-                height: Layout.window.width - 80,
-              }}></Box>
-          </Box>
+          {data.itemImageList.map((item, idx) => (
+            <Box key={idx.toString()} center>
+              <AutoHeightImage
+                key={idx.toString()}
+                source={{
+                  uri: item,
+                }}
+                width={Layout.window.width - 80}
+                style={{
+                  resizeMode: 'contain',
+                  marginRight: 22,
+                }}
+              />
+            </Box>
+          ))}
         </ScrollView>
         <Box ph={16}>
           <Box pv={24}>
             <Text bold size={32}>
-              [맞춤] 칼주름 형상기억 린넨직조 히든 암막커튼
+              {data.itemName}
             </Text>
           </Box>
           <Box>
             <Text size={20}>상품 상세 내용</Text>
-            <AutoHeightImage
-              source={{
-                uri: 'https://image.musinsa.com/images/prd_img/2021042008505200000031446.jpg',
+            <WebView
+              style={{
+                width: Layout.window.width,
+                height: Layout.window.height,
               }}
-              width={Layout.window.width}
-            />
-            <AutoHeightImage
-              source={{
-                uri: 'https://image.musinsa.com/images/prd_img/2021042008505200000031446.jpg',
-              }}
-              width={Layout.window.width}
+              originWhitelist={['*']}
+              source={{ uri: data.itemLink }}
             />
           </Box>
         </Box>
@@ -90,10 +102,14 @@ export default function (props: { id: string }) {
           paddingBottom: 24,
         }}>
         <BoxPressable
-          onPress={() => navigation.navigate('DetailVideo')}
+          onPress={() =>
+            navigation.navigate('DetailVideo', {
+              ...data,
+            })
+          }
           mr={12}>
           <Image
-            source={{ uri: 'https://source.unsplash.com/random' }}
+            source={{ uri: data.videoThumb }}
             style={{
               width: 100,
               height: (100 * 9) / 16,
@@ -105,7 +121,7 @@ export default function (props: { id: string }) {
         <Button
           fill
           label='구매하기'
-          onPress={() => Alert.alert('구매하기')}
+          onPress={() => WebBrowser.openBrowserAsync(data.itemLink)}
           background={'#000'}
         />
       </Box>

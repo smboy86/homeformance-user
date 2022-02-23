@@ -1,4 +1,6 @@
 export type VideoType = {
+  id: string;
+  itemId: string;
   itemThumb: string;
   itemName: string;
   itemSale: string;

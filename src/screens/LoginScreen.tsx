@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-native';
+import { Alert, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 import Box from '../basicComponents/Box';
@@ -14,6 +14,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { authService } from '../../fireabse';
 import { useReduxDispatch } from '../store';
 import { appActions } from '../store/slices/AppSlice';
+import Images from '../constants/Images';
+import { ResizeMode } from 'expo-av';
 
 export default function () {
   const [inputs, setInputs] = React.useState({
@@ -43,7 +45,6 @@ export default function () {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log('로그인 성공 :: ', user);
         dispatch(appActions.login());
       })
       .catch((error) => {
@@ -70,7 +71,14 @@ export default function () {
         style={{
           flex: 1,
         }}>
-        <Text size={30}>홈퍼먼스</Text>
+        <Image
+          source={Images.logoNew}
+          style={{
+            width: 160,
+            height: 80,
+            ResizeMode: 'contaion',
+          }}
+        />
         <Box
           wFull
           pd={10}

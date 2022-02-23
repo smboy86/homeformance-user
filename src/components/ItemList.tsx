@@ -5,28 +5,28 @@ import { useNavigation } from '@react-navigation/core';
 import Box from '../basicComponents/Box';
 import BoxPressable from '../basicComponents/BoxPressable';
 import Text from '../basicComponents/Text';
-import Colors from '../constants/Colors';
-import Images from '../constants/Images';
-import Layout, { pxToDp } from '../constants/Layout';
+import { pxToDp } from '../constants/Layout';
 import GreyBox from './GreyBox';
+import { VideoType } from '../types';
 
-type Props = {
-  itemImageUrl: string;
-  itemName: string;
-  itemPrice: string;
-};
+type Props = VideoType & {};
 
 export default function (props: Props) {
   const navigation = useNavigation();
+
   return (
     <>
       <BoxPressable
-        onPress={() => navigation.navigate('DetailItem')}
+        onPress={() =>
+          navigation.navigate('DetailItem', {
+            id: props.id,
+          })
+        }
         ph={pxToDp(16)}>
         <Box row aCenter>
           <Box pd={10}>
             <Image
-              source={{ uri: props.itemImageUrl }}
+              source={{ uri: props.itemThumb }}
               style={{
                 width: pxToDp(100),
                 height: pxToDp(100),

@@ -33,6 +33,7 @@ interface IProps extends ViewProps {
   safe?: boolean /* 헤더가 없을때 사용(헤더가 존재하면 기본영역 잡힘) */;
   style?: ViewStyle;
   isBottom?: boolean /* 최하단 영역 잡을때 */;
+  refVal?: any;
 }
 
 const ContainerWithScroll: React.FunctionComponent<IProps> = (
@@ -41,6 +42,7 @@ const ContainerWithScroll: React.FunctionComponent<IProps> = (
   return (
     <Wrap style={{ ...props.style }}>
       <Container
+        ref={props.refVal}
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps={'handled'}
         showsVerticalScrollIndicator={false}

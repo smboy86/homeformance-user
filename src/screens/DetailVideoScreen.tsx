@@ -11,20 +11,41 @@ import ActionButton from 'react-native-action-button';
 import { Video } from 'expo-av';
 
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
-import { Box, Button, Text, TextInput } from '../basicComponents';
+import { Box, Text, TextInput } from '../basicComponents';
 import Layout, { pxToDp } from '../constants/Layout';
 import BoxPressable from '../basicComponents/BoxPressable';
 import Colors from '../constants/Colors';
 import CommentCard from '../components/CommentCard';
 import Container from '../basicComponents/Container';
 import { VideoType } from '../types';
+import {
+  addDoc,
+  arrayUnion,
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { firestoreService } from '../../fireabse';
+import { useSelector } from 'react-redux';
+import { ScrollableComponent } from 'react-native-keyboard-aware-scroll-view';
+
+type ImperativeScrollViewHandles = {
+  scrollToStart(options?: { animated: boolean }): void;
+  scrollToEnd(options?: { animated: boolean }): void;
+  scrollTo(options: { x?: number; y?: number; animated?: boolean }): void;
+};
 
 export default function () {
   const [text, setText] = React.useState();
+  const [commentList, setCommentList] = React.useState([]);
 
   const { params } = useRoute<{ params: VideoType }>();
-
+  const appStore = useSelector((state) => state.app);
   const navigation = useNavigation();
+  const wrapRef = React.useRef<ScrollView>(null);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,8 +54,36 @@ export default function () {
     });
   }, []);
 
+  React.useEffect(() => {
+    const unsubscribe = onSnapshot(
+      query(
+        collection(firestoreService, 'comments'),
+        where('videoUid', '==', params.id)
+      ),
+      { includeMetadataChanges: false },
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const dataList = [];
+          snapshot.forEach((doc) => {
+            dataList.push({ ...doc.data() });
+          });
+
+          setCommentList(
+            dataList.sort((a, b) => {
+              return b.createDate - a.createDate;
+            })
+          );
+        }
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
   const onMoveDetailItem = () => {
-    navigation.navigate('DetailItem');
+    navigation.navigate('DetailItem', {
+      id: params.id,
+    });
   };
 
   const onShare = async () => {
@@ -54,9 +103,42 @@ export default function () {
     } catch (error) {}
   };
 
+  const onLikeVideo = async () => {
+    try {
+      // await addDoc(
+      //   coll(firestoreService, 'likeVideo', 'aaa '),
+      //   {
+      //     ttt: arrayUnion(params.id),
+      //   },
+      //   {
+      //     merge: true,
+      //   }
+      // );
+      Alert.alert('', '찜하기 완료');
+    } catch (error) {}
+  };
+
+  const onSaveComment = async () => {
+    try {
+      await addDoc(collection(firestoreService, 'comments'), {
+        videoUid: params.id,
+        userId: appStore.user.uid,
+        userName: appStore.user.name,
+        comment: text,
+        createDate: new Date(),
+      });
+
+      // 99) 후 처리
+      // 99-1) 입력값 초기화
+      setText('');
+      // 99-2)스크롤 맨 아래로
+      wrapRef.current.scrollToEnd();
+    } catch (error) {}
+  };
+
   return (
     <Container>
-      <ContainerWithScroll>
+      <ContainerWithScroll refVal={wrapRef}>
         <Box>
           <Video
             usePoster
@@ -81,8 +163,20 @@ export default function () {
                 center
                 width={pxToDp(80)}
                 height={pxToDp(80)}
-                borderRadius={pxToDp(40)}>
-                <Image source={{ uri: params.creatorThumb }} />
+                borderRadius={pxToDp(40)}
+                style={{
+                  overflow: 'hidden',
+                }}>
+                <Image
+                  source={{
+                    uri: params.creatorThumb,
+                  }}
+                  style={{
+                    width: pxToDp(160),
+                    height: pxToDp(160),
+                    resizeMode: 'contain',
+                  }}
+                />
               </Box>
               <Box
                 row
@@ -107,11 +201,7 @@ export default function () {
                     {params.introVideo}
                   </Text>
                 </Box>
-                <BoxPressable
-                  ph={10}
-                  height={46}
-                  center
-                  onPress={() => Alert.alert('찜하기')}>
+                <BoxPressable ph={10} height={46} center onPress={onLikeVideo}>
                   <Ionicons
                     name='heart'
                     size={20}
@@ -213,6 +303,7 @@ export default function () {
               }}>
               <TextInput
                 placeholder='코멘트 입력'
+                value={text}
                 setValue={setText}
                 style={{
                   paddingRight: 24,
@@ -221,7 +312,7 @@ export default function () {
               <BoxPressable
                 full
                 pd={4}
-                onPress={() => Alert.alert('코멘트 입력')}
+                onPress={onSaveComment}
                 style={{
                   position: 'absolute',
                   top: 2,
@@ -230,11 +321,14 @@ export default function () {
                 <AntDesign name='enter' size={18} color='black' />
               </BoxPressable>
             </Box>
-            <CommentCard />
-            <CommentCard />
-            <CommentCard />
-            <CommentCard />
-            <CommentCard />
+            {commentList.length > 0 &&
+              commentList.map((item, idx) => (
+                <CommentCard
+                  key={idx.toString()}
+                  userName={item.userName}
+                  comment={item.comment}
+                />
+              ))}
             {/*  // warp */}
           </Box>
         </Box>
@@ -248,17 +342,13 @@ export default function () {
         <ActionButton.Item
           buttonColor='#9b59b6'
           title='상세소개'
-          onPress={onMoveDetailItem}>
+          onPress={() => onMoveDetailItem()}>
           <MaterialIcons name='description' size={18} color='black' />
         </ActionButton.Item>
         <ActionButton.Item
           buttonColor='#3498db'
           title='구매하기'
-          onPress={() =>
-            Linking.openURL(
-              'http://item.gmarket.co.kr/detailview/item.asp?goodscode=2133778334'
-            )
-          }>
+          onPress={() => Linking.openURL(params.itemLink)}>
           <FontAwesome name='won' size={18} color='black' />
         </ActionButton.Item>
         <ActionButton.Item buttonColor='#1abc9c' title='공유' onPress={onShare}>

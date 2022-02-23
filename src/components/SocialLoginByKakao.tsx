@@ -61,7 +61,7 @@ export default function SocialLoginByKakao() {
       redirectUri, // slug 에 맞춰 자동생성 ex) https://auth.expo.io/@browncouponing/browncouponing-customer
       responseType: ResponseType.Code,
     },
-    discovery,
+    discovery
   );
 
   React.useEffect(() => {
@@ -76,7 +76,7 @@ export default function SocialLoginByKakao() {
             grantType: 'authorization_code',
           },
         },
-        discovery,
+        discovery
       )
         .then(async (token: TokenResponse) => {
           // 1) 소셜 회원 가입유무 (로그인 시도)
@@ -94,7 +94,7 @@ export default function SocialLoginByKakao() {
                 setCredentials({
                   accessToken: resultLogin.data.accessToken,
                   refreshToken: resultLogin.data.refreshToken,
-                }),
+                })
               );
             } else {
               // 3) 최초 회원가입일시 추천회원가입으로 이동
@@ -107,7 +107,7 @@ export default function SocialLoginByKakao() {
             console.log(' await login({kakao}) errrr ::: ', error);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('코드 -> 공급자의 access token 얻기 실패  errrr  ', err);
         });
     }
@@ -156,7 +156,7 @@ export default function SocialLoginByKakao() {
       params.append('client_id', WEB_CLIENT_ID);
       params.append(
         'redirect_uri',
-        'https://auth.expo.io/@browncouponing/browncouponing-customer',
+        'https://auth.expo.io/@browncouponing/browncouponing-customer'
       );
       params.append('code', code);
       params.append('client_secret', WEB_SECRET_ID);
@@ -177,18 +177,8 @@ export default function SocialLoginByKakao() {
         },
         body: `grant_type=authorization_code&client_id=${WEB_CLIENT_ID}&redirect_uri=https://auth.expo.io/@browncouponing/browncouponing-customer&code=${code}&client_secret=${WEB_SECRET_ID}`,
       })
-        .then(res => res.json())
-        .then(async token => {
-          console.log('ttttt token.accessToken  ::  ', token);
-          /*
-            {
-              "access_token": "--F246OUhpXSoS4Xz2NMyV8DD36eGddLBKgHPQopb9QAAAF9hbpsbQ",
-              "expires_in": 21599,
-              "refresh_token": "_DeB60mYBH8qL5dpseo0qyQbVMV_vv7et69lHQopb9QAAAF9hbpsbA",
-              "refresh_token_expires_in": 5183999,
-              "token_type": "bearer",
-            }
-          */
+        .then((res) => res.json())
+        .then(async (token) => {
           try {
             const resultLogin = await login({
               token: token.access_token,
@@ -202,7 +192,7 @@ export default function SocialLoginByKakao() {
                 setCredentials({
                   accessToken: resultLogin.data.accessToken,
                   refreshToken: resultLogin.data.refreshToken,
-                }),
+                })
               );
             } else {
               // 3) 최초 회원가입일시 추천회원가입으로 이동
@@ -216,7 +206,7 @@ export default function SocialLoginByKakao() {
             Alert.alert('오류', `${error.data.errorMessage}`);
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('dfasfsadfasdf :: ', err);
         });
     } else {

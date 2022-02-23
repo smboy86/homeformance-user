@@ -9,7 +9,7 @@ import MainNavigator from './MainNavigator';
 import { useDispatch, useSelector } from 'react-redux';
 import { authService, firestoreService } from '../../fireabse';
 import { appActions } from '../store/slices/AppSlice';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 // import useLocation from '../hooks/useLocation';
 
 export default function RootNavigator() {
@@ -31,8 +31,23 @@ export default function RootNavigator() {
         const docRef = doc(firestoreService, 'users', user.uid);
         const docSnap = await getDoc(docRef);
 
+        if (appStore.items === null || appStore.items === undefined) {
+          const itemsnap = await getDocs(
+            collection(firestoreService, 'videos')
+          );
+
+          const tempList = [];
+          itemsnap.forEach((item) => {
+            tempList.push({ ...item.data(), id: item.id });
+          });
+
+          // 2) itemList
+          dispatch(appActions.setItems(tempList));
+        }
+
+        // result
         if (docSnap.exists()) {
-          console.log('11111111    ', { ...docSnap.data() });
+          // 1) user
           dispatch(
             appActions.setUser({
               ...docSnap.data(),

@@ -55,7 +55,7 @@ export default function (props: props) {
           <Box backColor='#00000080' full pd={6}>
             <Text color='#fff'>{props.itemName}</Text>
             <Text color='#fff'>
-              <Text color='red'>{props.itemSale}</Text>
+              <Text color='red'>{props.itemSale}% </Text>
               {props.itemPrice}원
             </Text>
           </Box>

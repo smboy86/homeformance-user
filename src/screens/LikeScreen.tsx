@@ -5,21 +5,36 @@ import Box from '../basicComponents/Box';
 import ContainerWithScroll from '../basicComponents/ContainerWithScroll';
 import Text from '../basicComponents/Text';
 import { useSelector } from 'react-redux';
+import { VideoType } from '../types';
+import VideoCardHome from '../components/VideoCardHome';
+import ItemList from '../components/ItemList';
 
 const Tab = createMaterialTopTabNavigator();
 
 function VideoTab() {
+  const appStore = useSelector((state) => state.app);
+
   return (
     <ContainerWithScroll>
-      <Text> </Text>
+      {appStore?.items?.length >= 0 &&
+        appStore?.items?.map((item: VideoType, idx: number) => {
+          if (idx === 2)
+            return <VideoCardHome id={''} key={idx.toString()} {...item} />;
+        })}
     </ContainerWithScroll>
   );
 }
 
 function LikeTab() {
+  const appStore = useSelector((state) => state.app);
+
   return (
     <ContainerWithScroll>
-      <Text> </Text>
+      {appStore?.items?.length >= 0 &&
+        appStore?.items?.map(
+          (item, idx: number) =>
+            idx === 2 && <ItemList key={idx.toString()} {...item} />
+        )}
     </ContainerWithScroll>
   );
 }

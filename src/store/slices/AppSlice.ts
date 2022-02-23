@@ -5,6 +5,7 @@ const actionName = 'app';
 const initialState = {
   isLogin: false,
   user: null,
+  items: null,
 };
 
 // 99) slice
@@ -20,6 +21,9 @@ const appSlice = createSlice({
     },
     setUser(state, action) {
       state.user = action.payload;
+    },
+    setItems(state, action) {
+      state.items = action.payload;
     },
   },
 });
